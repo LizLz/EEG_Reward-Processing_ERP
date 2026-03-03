@@ -34,35 +34,10 @@ def get_iclabel(trials, ica, method='iclabel'):
     :return: IC labels.
     '''
     # IC_label expects filtered between 1 and 100 Hz, reference to be common average and ica method to be infomax
-    # so it's better to combine the result of autolabel and munual check in our case
     trials.load_data()
     ic_labels = label_components(trials, ica, method=method)
 
     return ic_labels
-
-
-def iccomponent_removal(eeg, ica, ic_labels, criteria):
-    '''
-    Remove bad IC components based on the given criteria.
-
-    :param eeg: MNE Raw object containing EEG data.
-    :param ica: Fitted ICA object.
-    :param ic_labels: IC labels.
-    :param criteria: Confidence threshold for component removal.
-
-    :return: Cleaned MNE Raw object.
-    '''
-    # authors only remove eye components and leaves other intact
-    exclude_idx = []
-    for i, label in enumerate(ic_labels['labels'] ):
-        #print(label)
-        if label == 'eye blink' and ic_labels['y_pred_proba'][i] > criteria:
-            exclude_idx.append(i)
-
-    ica.exclude = exclude_idx
-    ica.apply(eeg)
-
-    return eeg
 
 def iccomponent_removal_author(eeg, trials, ica):
     '''
@@ -121,7 +96,7 @@ def iccomponent_removal_new(eeg, trials, ica):
     all_labels = iclabel_label_components(trials, ica)
     for i, probabilities in enumerate(all_labels):
         #print(label)
-        if probabilities[label_dict['brain']] < 0.4:
+        if probabilities[label_dict['brain']] < 0.3:
             exclude_idx.append(i)
     ica.exclude = exclude_idx
     ica.apply(eeg)

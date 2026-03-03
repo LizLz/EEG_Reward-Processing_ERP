@@ -80,12 +80,16 @@ def exclude_early_trials(data, num_to_exclude=10, verbose=True):
 
     data_clean = data.copy()
     
-    # Add back the filtered events
+    # add back annotations
+    rev_event_dict = {v: k for k, v in event_dict.items()}
+    
     new_annot = mne.annotations_from_events(
-        events_filtered,
-        data_clean.info['sfreq'],
-        event_desc={v: k for k, v in event_dict.items()}
+        events_filtered, 
+        data_clean.info['sfreq'], 
+        event_desc=rev_event_dict,
+        orig_time=data_clean.info['meas_date']
     )
+    
     data_clean.set_annotations(new_annot)
     
     if verbose:

@@ -168,12 +168,67 @@ def plot_erp(evokeds, channel='FCz', mean_window=[0.240, 0.340], ylim=[-5, 10], 
 
 def plot_topo_serires(evokeds, times = [0.18, 0.22, 0.26, 0.30, 0.34, 0.38], vlimit = (-5, 5)):
     '''
-    Plot topo sereies for the grand average erps
+    Plot topo series for the grand average erps.
+    Automatically filters out channels with overlapping or missing coordinates 
+    (like [0, 0, 0] placeholders or duplicate locations) to prevent visualization crashes.
     
-    :param evokeds: input grand averages
+    :param evokeds: dictionary of grand average mne.Evoked objects
     :param times: time points for each single topography
-    :param vlimit: amplitude limites for the topographies
+    :param vlimit: amplitude limits for the topographies (min, max)
     '''
     for condition, evoked in evokeds.items():
-        print(f"Plotting Topomap for: {condition}")
-        evoked.plot_topomap(times=times, ch_type='eeg', colorbar=True, vlim=vlimit)
+        print(f"Processing Topomap for: {condition}")
+        
+        # 1. Identify channels with unique and valid coordinates
+        valid_indices = []
+        invalid_channels = []
+        seen_positions = [] # List to track coordinates already used
+        
+        for i, ch in enumerate(evoked.info['chs']):
+            loc = ch['loc'][:3]
+            
+            # Check if there is a zero or NaN placeholder
+            # Using np.allclose handles tiny rounding errors near zero
+            is_placeholder = np.allclose(loc, 0, atol=1e-9) or np.any(np.isnan(loc))
+            
+            # Check if there is a position already taken by another electrode
+            # MNE crashes if any two electrodes are within 1e-10 of each other.
+            is_duplicate = False
+            for pos in seen_positions:
+                if np.allclose(loc, pos, atol=1e-7): # 1e-7 is safe for sensor spacing
+                    is_duplicate = True
+                    break
+            
+            if is_placeholder or is_duplicate:
+                invalid_channels.append(ch['ch_name'])
+            else:
+                valid_indices.append(i)
+                seen_positions.append(loc)
+        
+        # 2. Get the names of valid channels
+        valid_channel_names = [evoked.ch_names[i] for i in valid_indices]
+        
+        if invalid_channels:
+            print(f"  - Warning: Dropping {len(invalid_channels)} invalid/overlapping channels: {invalid_channels}")
+
+        # 3. Create a temporary copy for plotting only
+        if not valid_channel_names:
+            print(f"  - Error: No valid channels with coordinates found for {condition}.")
+            continue
+            
+        evoked_to_plot = evoked.copy().pick_channels(valid_channel_names)
+        
+        # 4. Plot the topomap series
+        try:
+            # We use 'extrapolate=local' to handle cases where many channels are missing
+            fig = evoked_to_plot.plot_topomap(
+                times=times, 
+                ch_type='eeg', 
+                colorbar=True, 
+                vlim=vlimit,
+                extrapolate='local',
+                show=True
+            )
+            fig.suptitle(f"Topomap: {condition}", fontsize=12)
+        except Exception as e:
+            print(f"  - Error plotting {condition}: {e}")
