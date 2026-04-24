@@ -1,7 +1,7 @@
 # EEG_Reward-Processing_ERP
 # Reproduce ERP analysis from *Task-level value affects trial-level reward processing*
 
-**Author:** *Zheng Lin*
+**Author:** *Zheng Lin*<br>
 Some code skeletons are credited to Qianyue Li and Yanhong Xu.
 
 **Year:** *2026*
