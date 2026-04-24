@@ -18,9 +18,9 @@ We would compare the analysis results from our own pipeline with the original st
 | ---- | -------- | -------- |
 | Bad Channels | Auto Rejection | Same |
 | Downsampling | 1000Hz -> 250 Hz | Same |
-| Filter | 0.1Hz~30Hz | **0.1Hz~50Hz** |
-| 50Hz noise removal | Notch | **Notch (compared Notch and Zapline)** |
-| Re-reference | average of left and right mastoids | Same |
+| Filter | 0.1Hz~30Hz | **0.1Hz~40Hz** |
+| 50Hz noise removal | Notch | **Zapline** |
+| Re-reference | average of left and right mastoids | **mastoids + general average** |
 | ICA | Runica | **Picard (faster)** |
 | Artefacts removal | IC-Label | Same |
 | ERP Analysis | Mean | Same |
