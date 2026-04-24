@@ -1,0 +1,9 @@
+2026-04-24 22:08:45,545 - bad_channels_proposed - INFO - Logger initialized -> C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\bad_channels_proposed.log
+2026-04-24 22:08:45,546 - bad_channels_proposed - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 22:08:45,546 - bad_channels_proposed - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\bad_channels_proposed.log
+2026-04-24 22:10:23,988 - bad_channels_proposed - INFO - Subject 33: Bad channels detected -> []
+2026-04-24 22:13:27,482 - bad_channels_proposed - INFO - Subject 34: Bad channels detected -> []
+2026-04-24 22:16:06,474 - bad_channels_proposed - INFO - Subject 35: Bad channels detected -> []
+2026-04-24 22:18:17,607 - bad_channels_proposed - INFO - Subject 36: Bad channels detected -> []
+2026-04-24 22:20:02,624 - bad_channels_proposed - INFO - Subject 37: Bad channels detected -> []
+2026-04-24 22:22:41,164 - bad_channels_proposed - INFO - Subject 38: Bad channels detected -> []

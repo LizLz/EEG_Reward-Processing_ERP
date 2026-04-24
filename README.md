@@ -1,27 +1,31 @@
 # EEG_Reward-Processing_ERP
 # Reproduce ERP analysis from *Task-level value affects trial-level reward processing*
 
-**Author:** *Qianyue Li*, *Zheng Lin*, *Yanhong Xu*
+**Author:** *Zheng Lin*
+Some code skeletons are credited to Qianyue Li and Yanhong Xu.
 
-**Year:** *2025*
+**Year:** *2026*
 
 ## Project Description
-This project aims to reproduce the ERP analysis from the study titled *Task-level value affects trial-level reward processing*. The analysis focuses on understanding how task-level value influences reward processing at the trial level using EEG data.
+This is the project for EEG course. I made some adjustment based on the final version submitted to play round the parameters for further analysis.
 
-## Folder Structure
+This project aims to reproduce the ERP analysis from the study titled [*Task-level value affects trial-level reward processing*](https://www.biorxiv.org/lookup/doi/10.1101/2021.09.16.460600). The analysis focuses on understanding how task-level value influences reward processing at the trial level using EEG data.
 
-```
-projectdir 
-└── research 
-    ├── Li
-    ├── Lin
-    ├── Xu
-└── plots
-└── report
-└── presentation
-└── scripts
-└── data <- sample data, git ignored
-```
+We would compare the analysis results from our own pipeline with the original study.
 
-## Usefuld resources
-[how to explain your data processing in a good manner](https://cobidasmeeg.wordpress.com/)
+## Pipeline Comparison
+| Step | Authors | Us |
+| ---- | -------- | -------- |
+| Bad Channels | Auto Rejection | Same |
+| Downsampling | 1000Hz -> 250 Hz | Same |
+| Filter | 0.1Hz~30Hz | **0.1Hz~50Hz** |
+| 50Hz noise removal | Notch | **Notch (compared Notch and Zapline)** |
+| Re-reference | average of left and right mastoids | Same |
+| ICA | Runica | **Picard (faster)** |
+| Artefacts removal | IC-Label | Same |
+| ERP Analysis | Mean | Same |
+| Trial-level averaging | Mean | **Trimmed Mean** |
+| Statistic | rmANOVA & rmT-tests | Same |
+
+## Dataset Download
+The dataset used in this project can be downloaded from the following link: [Dataset Link](https://nemar.org/dataexplorer/detail?dataset_id=ds004147). 

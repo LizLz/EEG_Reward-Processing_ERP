@@ -10,7 +10,7 @@ def down_sampling(eeg, new_sfreq=250, verbose=True):
 
     :return: downsampled eeg signal
     '''
-    eeg_down = eeg.resample(new_sfreq, npad='auto')
+    eeg_down = eeg.copy().resample(new_sfreq, npad='auto')
 
     if verbose:
         print(f"Original Sampling Rate: {eeg.info['sfreq']} Hz")
@@ -19,7 +19,6 @@ def down_sampling(eeg, new_sfreq=250, verbose=True):
     return eeg_down
 
 
-# NOTE: add and manipulate the cutoff frequencies if needed
 def band_filter(eeg, f_low=0.1, f_high=30):
     '''
     Perform bandpass filtering on the downsampled eeg signal.
@@ -30,7 +29,7 @@ def band_filter(eeg, f_low=0.1, f_high=30):
 
     :return: bandpass filtered eeg signal
     '''
-    eeg_band = eeg.filter(l_freq=f_low, h_freq=f_high, n_jobs=-1)
+    eeg_band = eeg.copy().filter(l_freq=f_low, h_freq=f_high, n_jobs=-1)
 
     return eeg_band
 
@@ -38,31 +37,42 @@ def band_filter(eeg, f_low=0.1, f_high=30):
 def notch_filter(eeg, line_freq=50):
     '''
     Perform notch filtering on the bandpass filtered eeg signal.
+    Automatically removes all harmonics within the signal bandwidth.
 
     :param eeg: eeg signal to be processed
     :param line_freq: line frequency to be removed
 
     :return: notch filtered eeg signal
     '''
-    eeg_band_notch = eeg.notch_filter(line_freq, n_jobs=-1)
-
-    return eeg_band_notch
-
-
-def zapline_filter(eeg, line_freq=50):
-    '''
-    Perform zapline filtering on the bandpass filtered eeg signal.
+    nyquist = eeg.info['sfreq'] / 2
+    freqs = [line_freq * i for i in range(1, int(nyquist // line_freq) + 1)]
     
-    :param eeg: eeg signal to be processed
-    :param line_freq: line frequency to be removed
+    print(f"[Notch] Removing: {freqs} Hz")
 
-    :return: zapline filtered eeg signal
-    '''
-    # input & output of dss_line are of shape: (n_samples, n_channels, n_trial)
+    eeg_notch = eeg.copy().notch_filter(freqs=freqs, n_jobs=-1)
+
+    return eeg_notch
+
+
+def zapline_filter(eeg, line_freq=50, nremove=3):
     band_sfreq = eeg.info['sfreq']
-    eeg_zap_array, _ = dss_line(np.expand_dims(eeg.get_data().T, axis=2), fline=line_freq, sfreq=band_sfreq)
-    # convert back to shape: (n_channels, n_samples)
-    eeg_zap_array = eeg_zap_array.squeeze().T
-    eeg._data = eeg_zap_array
+    nyquist = band_sfreq / 2
 
+    # Collect all harmonics within bandwidth
+    harmonics = [line_freq * i for i in range(1, int(nyquist // line_freq) + 1)]
+    
+    print(f"[Zapline] Removing harmonics: {harmonics} Hz with nremove={nremove}")
+
+    # (n_samples, n_channels, n_trials)
+    eeg_array = np.expand_dims(eeg.get_data().T, axis=2)
+
+    for freq in harmonics:
+        eeg_array, artifact = dss_line(
+            eeg_array,
+            fline=freq,
+            sfreq=band_sfreq,
+            nremove=nremove,
+        )
+
+    eeg._data = eeg_array.squeeze().T
     return eeg

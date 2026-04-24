@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import mne
+from matplotlib.backends.backend_pdf import PdfPages
 
 
 
@@ -61,8 +62,8 @@ def psd_compare(eegs, labels, title, figsize=(8, 6), picks=['FCz'], y_min=-46.4,
     ax.set_xlabel('Frequency (Hz)')
     ax.set_ylabel('Power (dB/Hz)')
 
-    ax.set_ylim(y_min, y_max)
-    ax.set_xlim(x_min, x_max)
+    #ax.set_ylim(y_min, y_max)
+    #ax.set_xlim(x_min, x_max)
     
     ax.set_title(title)
     ax.legend()
@@ -72,33 +73,32 @@ def psd_compare(eegs, labels, title, figsize=(8, 6), picks=['FCz'], y_min=-46.4,
 
 
 
-def iclabel_visualize(ica, ic_labels, trials):
+def iclabel_visualize(ica, ic_labels, exclude_idx=None, show=False, trials=None, save_path=None):
     '''
     Visualize Independent Component Analysis (ICA) components with their corresponding labels and probabilities.
-    
-    :param ica: ica object
-    :param ic_labels: Dictionary containing 'labels' and 'y_pred_proba'
-    :param trials: MNE Epochs object for plotting components
     '''
-    labels = ic_labels['labels'] 
-    probs = ic_labels['y_pred_proba'] 
+    label_dict = ['brain', 'muscle', 'eye blink', 'eye movement', 'heart', 'line noise', 'channel noise', 'other']
 
     # plot out scalp picture and the auto ic label
     titles = []
-    for i, label in enumerate(labels):
-        probability = np.max(probs[i])
+    for probabilities in ic_labels:
+        max_prob = np.max(probabilities)
+        label_idx = np.argmax(probabilities)
+        label = label_dict[label_idx]
+        print(f'The label with highest probabiliy ({max_prob}) is {label}')
         
-        title = f"{label.capitalize()} ({probability:.0%})"
+        title = f"{label.capitalize()} ({max_prob:.0%})"
         titles.append(title)
 
 
-    figs = ica.plot_components(inst=trials, show=False)
+    figs = ica.plot_components(picks=exclude_idx, inst=trials, show=False)
 
     if not isinstance(figs, list):
         figs = [figs]
 
     comp_idx = 0
     for fig in figs:
+        fig.set_layout_engine(None)
         fig.subplots_adjust(hspace=0.6, wspace=0.1, bottom=0.15)
         for ax in fig.axes:
             if comp_idx >= len(titles):
@@ -110,10 +110,19 @@ def iclabel_visualize(ica, ic_labels, trials):
             
             comp_idx += 1
 
-    plt.show()
+    if show:
+        plt.show();
+    if save_path:
+        with PdfPages(save_path) as pdf:
+            for fig in figs:
+                pdf.savefig(fig)
+        print(f'Save ')
 
 
-def plot_erp(evokeds, channel='FCz', mean_window=[0.240, 0.340], ylim=[-5, 10], diff=False, title=None):
+
+
+def plot_erp(evokeds, channel='FCz', mean_window=[0.240, 0.340], ylim=[-10, 20], diff=False, title=None):
+
     '''
     Plot ERP waveforms with mean amplitude window shading.
     
@@ -166,69 +175,71 @@ def plot_erp(evokeds, channel='FCz', mean_window=[0.240, 0.340], ylim=[-5, 10], 
     plt.show();
 
 
-def plot_topo_serires(evokeds, times = [0.18, 0.22, 0.26, 0.30, 0.34, 0.38], vlimit = (-5, 5)):
+def plot_topo_serires(evokeds, times=[0.18, 0.22, 0.26, 0.30, 0.34, 0.38], vlimit=(-5, 5)):
     '''
-    Plot topo series for the grand average erps.
-    Automatically filters out channels with overlapping or missing coordinates 
-    (like [0, 0, 0] placeholders or duplicate locations) to prevent visualization crashes.
-    
-    :param evokeds: dictionary of grand average mne.Evoked objects
-    :param times: time points for each single topography
-    :param vlimit: amplitude limits for the topographies (min, max)
+    Plot topo series for the grand average erps
     '''
-    for condition, evoked in evokeds.items():
-        print(f"Processing Topomap for: {condition}")
-        
-        # 1. Identify channels with unique and valid coordinates
-        valid_indices = []
-        invalid_channels = []
-        seen_positions = [] # List to track coordinates already used
-        
-        for i, ch in enumerate(evoked.info['chs']):
-            loc = ch['loc'][:3]
-            
-            # Check if there is a zero or NaN placeholder
-            # Using np.allclose handles tiny rounding errors near zero
-            is_placeholder = np.allclose(loc, 0, atol=1e-9) or np.any(np.isnan(loc))
-            
-            # Check if there is a position already taken by another electrode
-            # MNE crashes if any two electrodes are within 1e-10 of each other.
-            is_duplicate = False
-            for pos in seen_positions:
-                if np.allclose(loc, pos, atol=1e-7): # 1e-7 is safe for sensor spacing
-                    is_duplicate = True
-                    break
-            
-            if is_placeholder or is_duplicate:
-                invalid_channels.append(ch['ch_name'])
-            else:
-                valid_indices.append(i)
-                seen_positions.append(loc)
-        
-        # 2. Get the names of valid channels
-        valid_channel_names = [evoked.ch_names[i] for i in valid_indices]
-        
-        if invalid_channels:
-            print(f"  - Warning: Dropping {len(invalid_channels)} invalid/overlapping channels: {invalid_channels}")
+    # 1. Load the standard 10-05 montage (includes PO7, POz, PO8) outside the loop for speed
+    montage = mne.channels.make_standard_montage('standard_1005')
 
-        # 3. Create a temporary copy for plotting only
-        if not valid_channel_names:
-            print(f"  - Error: No valid channels with coordinates found for {condition}.")
-            continue
-            
-        evoked_to_plot = evoked.copy().pick_channels(valid_channel_names)
+    for condition, evoked in evokeds.items():
+        print(f"Plotting Topomap for: {condition}")
         
-        # 4. Plot the topomap series
-        try:
-            # We use 'extrapolate=local' to handle cases where many channels are missing
-            fig = evoked_to_plot.plot_topomap(
-                times=times, 
-                ch_type='eeg', 
-                colorbar=True, 
-                vlim=vlimit,
-                extrapolate='local',
-                show=True
-            )
-            fig.suptitle(f"Topomap: {condition}", fontsize=12)
-        except Exception as e:
-            print(f"  - Error plotting {condition}: {e}")
+        # 2. Apply the montage to give MNE the physical coordinates
+        # match_case=False fixes capitalization issues (e.g., 'POz' vs 'poz')
+        # on_missing='ignore' prevents crashes if a weird channel name slipped through
+        evoked.set_montage(montage, match_case=False, on_missing='ignore')
+        
+        # 3. Generate the 2D plot
+        evoked.plot_topomap(times=times, ch_type='eeg', colorbar=True, vlim=vlimit)
+
+def plot_cleaning_compare(before_eeg, after_eeg, tmin=100, tmax=105, title=None):
+    '''
+    Plot butterfly plot comparing EEG data before and after cleaning.
+    '''
+    mask_before = (before_eeg.times >= tmin) & (before_eeg.times <= tmax)
+    mask_after = (after_eeg.times >= tmin) & (after_eeg.times <= tmax)
+
+    data_before = before_eeg.get_data()[:, mask_before] * 1e6
+    data_after = after_eeg.get_data()[:, mask_after] * 1e6
+
+    times_before = before_eeg.times[mask_before]
+    times_after = after_eeg.times[mask_after]
+
+    n_channels = data_before.shape[0]
+    ch_names = before_eeg.ch_names
+
+    fig, axes = plt.subplots(n_channels, 1, figsize=(14, n_channels * 0.4), sharex=True)
+    fig.subplots_adjust(hspace=0)
+
+    for i, ax in enumerate(axes):
+        ch_std = np.std(data_after[i])
+        ylim = (-15 * ch_std, 15 * ch_std)
+        
+        # demean each channel so DC offset doesn't push lines off scale
+        before_demeaned = data_before[i] - np.mean(data_before[i])
+        after_demeaned = data_after[i] - np.mean(data_after[i])
+        
+        ax.plot(times_after, after_demeaned, color="blue", alpha=0.4, linewidth=0.5, clip_on=False)
+        ax.plot(times_before, before_demeaned, color="red", alpha=0.7, linewidth=0.5, clip_on=False)
+        ax.set_ylim(ylim)
+        ax.set_ylabel(ch_names[i], rotation=0, labelpad=40, fontsize=7)
+        ax.set_yticks([])
+        for spine in ax.spines.values():
+            spine.set_visible(False)
+
+    axes[0].set_title(title)
+    axes[-1].set_xlabel("Time (s)")
+    axes[0].plot([], color="red", label="before")
+    axes[0].plot([], color="blue", label="after")
+    axes[0].legend(fontsize=7, loc="upper right")
+
+    plt.tight_layout()
+    plt.show()
+
+def plot_butterfly_evokeds(evokeds_dict, title=None):
+    '''
+    Plot butterfly plot for evoked data across all conditions.
+    '''
+    all_condition_evoked = mne.grand_average(list(evokeds_dict.values()))
+    all_condition_evoked.plot(titles=title);

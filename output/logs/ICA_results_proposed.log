@@ -1,0 +1,7 @@
+2026-04-24 22:46:35,081 - ICA_results_proposed - INFO - Logger initialized -> C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_proposed.log
+2026-04-24 22:46:35,081 - ICA_results_proposed - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 22:46:35,082 - ICA_results_proposed - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_proposed.log
+2026-04-24 22:47:54,902 - ICA_results_proposed - INFO - Subject 37: Excluded 8/31 ICs -> [0, 7, 8, 14, 17, 18, 28, 29]
+2026-04-24 22:48:09,678 - ICA_results_proposed - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 22:48:09,680 - ICA_results_proposed - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_proposed.log
+2026-04-24 22:50:12,513 - ICA_results_proposed - INFO - Subject 38: Excluded 5/31 ICs -> [0, 6, 7, 10, 20]

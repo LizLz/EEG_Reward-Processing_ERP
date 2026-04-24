@@ -1,0 +1,16 @@
+2026-04-24 19:35:52,136 - bad_channels_original - INFO - Logger initialized -> C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\bad_channels_original.log
+2026-04-24 19:35:52,138 - bad_channels_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 19:35:52,139 - bad_channels_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\bad_channels_original.log
+2026-04-24 19:45:09,303 - bad_channels_original - INFO - Subject 27: Bad channels detected -> []
+2026-04-24 19:46:45,796 - bad_channels_original - INFO - Subject 28: Bad channels detected -> []
+2026-04-24 19:48:44,851 - bad_channels_original - INFO - Subject 29: Bad channels detected -> []
+2026-04-24 19:50:33,275 - bad_channels_original - INFO - Subject 30: Bad channels detected -> []
+2026-04-24 20:00:02,528 - bad_channels_original - INFO - Subject 31: Bad channels detected -> []
+2026-04-24 20:23:37,883 - bad_channels_original - INFO - Subject 32: Bad channels detected -> []
+2026-04-24 20:23:49,300 - bad_channels_original - INFO - Subject 32: Bad channels detected -> []
+2026-04-24 20:50:38,688 - bad_channels_original - INFO - Subject 33: Bad channels detected -> []
+2026-04-24 20:54:26,903 - bad_channels_original - INFO - Subject 34: Bad channels detected -> []
+2026-04-24 20:56:39,136 - bad_channels_original - INFO - Subject 35: Bad channels detected -> []
+2026-04-24 20:58:36,100 - bad_channels_original - INFO - Subject 36: Bad channels detected -> []
+2026-04-24 21:00:23,957 - bad_channels_original - INFO - Subject 37: Bad channels detected -> []
+2026-04-24 21:02:04,972 - bad_channels_original - INFO - Subject 38: Bad channels detected -> []

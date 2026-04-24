@@ -1,0 +1,37 @@
+2026-04-24 21:29:14,380 - ICA_results_original - INFO - Logger initialized -> C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:29:14,381 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:29:14,382 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:30:13,141 - ICA_results_original - INFO - Subject 27: Excluded 3/31 ICs -> [0, 5, 12]
+2026-04-24 21:35:27,598 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:35:27,598 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:36:21,905 - ICA_results_original - INFO - Subject 28: Excluded 6/31 ICs -> [0, 5, 10, 18, 20, 26]
+2026-04-24 21:36:57,400 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:36:57,401 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:37:56,045 - ICA_results_original - INFO - Subject 29: Excluded 3/31 ICs -> [0, 10, 20]
+2026-04-24 21:38:16,027 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:38:16,028 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:39:09,082 - ICA_results_original - INFO - Subject 30: Excluded 3/31 ICs -> [0, 1, 5]
+2026-04-24 21:39:30,692 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:39:30,694 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:40:30,788 - ICA_results_original - INFO - Subject 31: Excluded 3/31 ICs -> [0, 3, 5]
+2026-04-24 21:41:03,716 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:41:03,716 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:41:59,698 - ICA_results_original - INFO - Subject 32: Excluded 4/31 ICs -> [0, 1, 8, 12]
+2026-04-24 21:42:19,419 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:42:19,420 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:43:19,455 - ICA_results_original - INFO - Subject 33: Excluded 3/31 ICs -> [1, 25, 27]
+2026-04-24 21:43:27,304 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:43:27,304 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:44:26,066 - ICA_results_original - INFO - Subject 34: Excluded 4/31 ICs -> [0, 1, 2, 10]
+2026-04-24 21:44:37,823 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:44:37,825 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:46:02,735 - ICA_results_original - INFO - Subject 35: Excluded 2/31 ICs -> [0, 6]
+2026-04-24 21:46:14,296 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:46:14,296 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:47:13,806 - ICA_results_original - INFO - Subject 36: Excluded 8/31 ICs -> [0, 1, 2, 3, 7, 12, 16, 21]
+2026-04-24 21:47:34,690 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:47:34,691 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:48:34,887 - ICA_results_original - INFO - Subject 37: Excluded 1/31 ICs -> [0]
+2026-04-24 21:48:47,667 - ICA_results_original - INFO - Output dir: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output
+2026-04-24 21:48:47,669 - ICA_results_original - INFO - Check log file: C:\Users\Zheng\Desktop\EEG Project\EEG_Reward-Processing_ERP\output\logs\ICA_results_original.log
+2026-04-24 21:49:49,293 - ICA_results_original - INFO - Subject 38: Excluded 5/31 ICs -> [0, 1, 5, 10, 14]
