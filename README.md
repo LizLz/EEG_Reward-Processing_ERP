@@ -27,5 +27,8 @@ We would compare the analysis results from our own pipeline with the original st
 | Trial-level averaging | Mean | **Trimmed Mean** |
 | Statistic | rmANOVA & rmT-tests | Same |
 
-## Dataset Download
-The dataset used in this project can be downloaded from the following link: [Dataset Link](https://nemar.org/dataexplorer/detail?dataset_id=ds004147). 
+## Quick Start
+- The dataset used in this project can be downloaded from the following link: [Dataset Link](https://nemar.org/dataexplorer/detail?dataset_id=ds004147).
+- Run `scripts/single_subject_original.ipynb` to follow the author's pipeline and compare the result with the paper
+- Run `scripts/single_subject_new.ipynb` to follow our proposed pipeline
+- After running single_subject scripts for all subjects and saved ICA and bad channel info, run `multi_subject_processing.ipynb` for overall processing 
